@@ -1,0 +1,38 @@
+name: deploy to lambda
+on:
+  push:
+    branches:
+      - master
+jobs:
+  deploy_source:
+    name: build and deploy lambda
+    strategy:
+      matrix:
+        python-version: ["3.9"]
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - name: Install zip
+        uses: montudor/action-zip@v1.0.0
+      - name: Zip channel-fetcher
+        run: zip -qq -r ../channel-fetcher.zip *
+        working-directory: channel-fetcher
+      - name: Zip channel-provider
+        run: zip -qq -r ../channel-provider.zip *
+        working-directory: channel-provider
+      - name: deploy channel-fetcher
+        uses: appleboy/lambda-action@master
+        with:
+          aws_access_key_id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws_secret_access_key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          aws_region: eu-west-1
+          function_name: channel-fetcher
+          zip_file: channel-fetcher.zip    
+      - name: deploy channel-provider
+        uses: appleboy/lambda-action@master
+        with:
+          aws_access_key_id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws_secret_access_key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          aws_region: eu-west-1
+          function_name: channel-provider
+          zip_file: channel-provider.zip
