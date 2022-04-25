@@ -5,9 +5,9 @@ list of languages and provides this reduced m3u list to s3
 
 import json # pylint: disable=import-error
 import shutil # pylint: disable=import-error
+import os # pylint: disable=import-error
 import urllib3 # pylint: disable=import-error
 import boto3 # pylint: disable=import-error
-import os # pylint: disable=import-error
 
 # Secret
 SECRET_ARN = os.environ['SECRET_ARN']

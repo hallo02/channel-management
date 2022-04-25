@@ -3,8 +3,8 @@ This module delivers the preprocessed reduced channel m3u file
 """
 
 import json # pylint: disable=import-error
-import boto3 # pylint: disable=import-error
 import os # pylint: disable=import-error
+import boto3 # pylint: disable=import-error
 
 # Secret
 SECRET_ARN = os.environ['SECRET_ARN']
